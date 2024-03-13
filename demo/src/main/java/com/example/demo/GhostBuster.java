@@ -38,34 +38,35 @@ public class GhostBuster {
 
 		Collections.shuffle(huntingList);
 		
-		for (Ghost ghost : huntingList) {
-			hunt(ghost);
+		try {
+			for (Ghost ghost : huntingList) {
+				hunt(ghost);
+				Thread.sleep(battleSimulator.nextInt(1000, 3000));
+			}
+			LOG.info("Dommages finaux {}", damage);
+			
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
-		LOG.info("Dommages finaux {}", damage);
-
 	}
 
 	public static void hunt(Ghost ghost) {
 		try {
-			
 			checkDangerous(ghost);
 			
 			switch (ghost.getColor()) {
-			case "Grey": {
-				battle(ghost, 75);
-			};
-			break;
-			default: {
-				battle(ghost, 100);
+				case "Grey": {
+					battle(ghost, 75);
+				};
+				break;
+				default: {
+					battle(ghost, 100);
+				}
 			}
-			
-			}
-			
 		} catch (CustomException e) {
 			LOG.trace("Combat refusé contre {}", ghost.getSpecimen(), e );
 		}
 	}
-
 	
 	public static void battle(Ghost ghost, Integer visibility) {
 		ghost.setStatus(HuntingStatus.IN_BATTLE);
@@ -127,15 +128,14 @@ public class GhostBuster {
 	// - combien de combats ont eu lieu ?
 	// - pourquoi certains combats ont été évités ?
 	// - combien de fantômes ont été capurés ?
-	// - quel est le niveau de dommage de l'équipe à la fin de la chasse 
+	// - quel est le niveau de dommage de l'équipe à la fin de la chasse ?
+	// - Combien de temps s'est écoulé entre chaque combat (en ms ?)
 
 	// Indications : 
 	// Utiliser LOG.error(), LOG.info() de la bibliotèque slf4j (import déjà fait dans la classe)
 
     // TODO 	
 	// Ajouter un log inutile pour la MCO, qui spamme / avec info securité ATO
-	// Ajouter une queston plus complexe : sleep aléatoire entre chaque combat + modif du formatter pouir afficher ms PBA
-	// Config logger en INFO + appel dn trace ou debug dans isDangerous EBR
 	// Bonus : ajouter méthode sur taille et gestion munitions / fusil ?
 	
 	
