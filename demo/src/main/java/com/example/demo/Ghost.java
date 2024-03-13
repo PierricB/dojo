@@ -11,7 +11,7 @@ public class Ghost {
 	
 	private Integer size;
 	
-	private boolean dangerous;
+	private boolean agressif;
 	
 	private HuntingStatus status; 
 	
@@ -21,13 +21,13 @@ public class Ghost {
 	
 	
 	
-	public Ghost(String specimen, String color, Integer size, boolean dangerous, HuntingStatus status,
+	public Ghost(String specimen, String color, Integer size, boolean agressif, HuntingStatus status,
 			Integer damageBonus, Integer health) {
 		super();
 		this.specimen = specimen;
 		this.color = color;
 		this.size = size;
-		this.dangerous = dangerous;
+		this.agressif = agressif;
 		this.status = status;
 		this.damageBonus = damageBonus;
 		this.health = health;
@@ -117,19 +117,15 @@ public class Ghost {
 		this.size = size;
 	}
 
-	/**
-	 * @return the dangerous
-	 */
-	public boolean isDangerous() {
-		return dangerous;
+	public boolean isAgressif() {
+		return agressif;
 	}
 
-	/**
-	 * @param dangerous the dangerous to set
-	 */
-	public void setDangerous(boolean dangerous) {
-		this.dangerous = dangerous;
+	public void setAgressif(boolean aggressif) {
+		this.agressif = aggressif;
 	}
+
+
 
 	
 	
