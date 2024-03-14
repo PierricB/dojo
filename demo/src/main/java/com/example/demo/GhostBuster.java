@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class GhostBuster {
 
+	//
 	private static final Logger LOG = LoggerFactory.getLogger(GhostBuster.class);
 
 	private static final int INITIAL_DMG = 20;
