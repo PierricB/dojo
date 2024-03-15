@@ -34,7 +34,7 @@ public class GhostBuster {
 				"Vous le verrez sous forme de brume tourbillonnante, Esprit turbulent provoquant des désordres."));
 		
 		huntingList.add(new Ghost("Gozer", "Yellow", 400, true, HuntingStatus.FREE, 25, "Un flemmard."));
-		
+				
 		huntingList.add(new Ghost("Furtive", "Grey", 350, true, HuntingStatus.FREE, 25,
 				"A les mêmes pouvoirs que barbe noire et peut même vous faire vivre l'illusion."));
 		
@@ -82,15 +82,23 @@ public class GhostBuster {
 		huntingList.add(new Ghost("Azure", "Blue", 280, true, HuntingStatus.FREE, 30,
 				"Esprit azuré qui hante les profondeurs des océans."));
 		
+        int NumberOfHoursGhostSleep = battleSimulator.nextInt(3);
+        if (NumberOfHoursGhostSleep == 2) {
+    		huntingList.add(new Ghost("Collapsus", "White", 800, false, HuntingStatus.FREE, 20,
+    			"Peux faire évanouir les ghost busters."));
+        } 
+        
 		Collections.shuffle(huntingList);
 
 		try {
 			for (Ghost ghost : huntingList) {
 				hunt(ghost);
 				Thread.sleep(battleSimulator.nextInt(1000, 3000));
+				if ("Collapsus".equals(ghost.getSpecimen())) {
+			        Thread.currentThread().interrupt();
+				}
 			}
 		} catch (InterruptedException e) {
-			e.printStackTrace();
 		}
 
 	}
