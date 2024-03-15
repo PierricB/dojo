@@ -7,138 +7,173 @@ import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.SpringApplication;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.core.io.Resource;
 
 @SpringBootApplication
 public class GhostBuster {
 
-	//
+	@Value("classpath:ascii-art.txt")
+	private static Resource asciiArtFile;
+
 	private static final Logger LOG = LoggerFactory.getLogger(GhostBuster.class);
 
-	private static final int INITIAL_DMG = 20;
-	private static final int HAUTEUR_TOUR_EIFFEL = 330;
-	
 	private static Random battleSimulator = new Random();
+
+	private static final int INITIAL_DMG = 20;
+	private static final int HEIGHT_SPOOK_CENTRAL = 300;
 
 	private static Integer damage = INITIAL_DMG;
 
 	public static void main(String[] args) {
-		SpringApplication.run(GhostBuster.class, args);
-		
-		Ghost casper = new Ghost("Casper3000", "White", 400, false, HuntingStatus.FREE, 1, 20);
-		Ghost gozer = new Ghost("Gozer", "Yellow", 400, true, HuntingStatus.FREE, 5, 25);
-		Ghost kawai = new Ghost("Kawai", "Green", 10, false, HuntingStatus.FREE, 5, 25);
-		Ghost furtive = new Ghost("Furtive", "Grey", 400, true, HuntingStatus.FREE, 5, 25);
 
 		List<Ghost> huntingList = new ArrayList<Ghost>();
-		huntingList.add(gozer);
-		huntingList.add(kawai);
-		huntingList.add(furtive);
-		huntingList.add(casper);
-
-		Collections.shuffle(huntingList);
 		
+		huntingList.add(new Ghost("Casper3000", "White", 400, false, HuntingStatus.FREE, 20,
+				"Vous le verrez sous forme de brume tourbillonnante, Esprit turbulent provoquant des désordres."));
+		
+		huntingList.add(new Ghost("Gozer", "Yellow", 400, true, HuntingStatus.FREE, 25, "Un flemmard."));
+		
+		huntingList.add(new Ghost("Furtive", "Grey", 350, true, HuntingStatus.FREE, 25,
+				"A les mêmes pouvoirs que barbe noire et peut même vous faire vivre l'illusion."));
+		
+		huntingList.add(new Ghost("Kawai", "Green", 10, true, HuntingStatus.FREE, 25,
+				"Esprit protecteur des voyageurs égarés. Tout comme Marcelino pan y vino, il peut parler avec les animaux."));
+		
+		huntingList.add(new Ghost("Ranger", "Orange", 420, false, HuntingStatus.FREE, 25, "Très puissant."));
+		
+		huntingList.add(new Ghost("Slimer", "Green", 150, false, HuntingStatus.FREE, 30,
+				"Esprit glouton qui se délecte des déchets alimentaires."));
+		
+		huntingList.add(new Ghost("Poltergeist", "Grey", 300, false, HuntingStatus.FREE, 15,
+				"Esprit frappeur qui aime jouer des tours à ceux qui vivent dans la maison."));
+		
+		huntingList.add(new Ghost("Banshee", "Blue", 200, false, HuntingStatus.FREE, 20,
+				"Esprit hurlant qui annonce la mort imminente."));
+		
+		huntingList.add(new Ghost("Spectre", "Purple", 500, false, HuntingStatus.FREE, 25,
+				"Esprit mystérieux qui hante les ruines anciennes."));
+		
+		huntingList.add(new Ghost("Revenant", "Black", 180, true, HuntingStatus.FREE, 20,
+				"Esprit vengeur revenu d'entre les morts pour poursuivre ses ennemis."));
+		
+		huntingList.add(new Ghost("Wraith", "Grey", 280, true, HuntingStatus.FREE, 30,
+				"Esprit sinistre qui se déplace silencieusement dans les ténèbres."));
+		
+		huntingList.add(new Ghost("Phantom", "White", 350, false, HuntingStatus.FREE, 25,
+				"Esprit éthéré qui apparaît et disparaît soudainement."));
+		
+		huntingList.add(new Ghost("Shade", "Black", 500, true, HuntingStatus.FREE, 20,
+				"Esprit sombre qui obscurcit l'esprit de ceux qui l'approchent."));
+		
+		huntingList.add(new Ghost("Shadow", "Black", 250, true, HuntingStatus.FREE, 20,
+				"Se déplace silencieusement dans les coins obscurs."));
+		
+		huntingList.add(new Ghost("Ember", "Red", 180, false, HuntingStatus.FREE, 15,
+				"Esprit flamboyant qui apparaît sous forme de lueurs incandescentes."));
+		
+		huntingList.add(new Ghost("Frost", "White", 550, true, HuntingStatus.FREE, 25,
+				"Esprit glacial qui fait chuter les températures autour de lui."));
+		
+		huntingList.add(new Ghost("Whisper", "Purple", 200, false, HuntingStatus.FREE, 18,
+				"Esprit discret qui murmure des secrets."));
+		
+		huntingList.add(new Ghost("Azure", "Blue", 280, true, HuntingStatus.FREE, 30,
+				"Esprit azuré qui hante les profondeurs des océans."));
+		
+		Collections.shuffle(huntingList);
+
 		try {
 			for (Ghost ghost : huntingList) {
 				hunt(ghost);
 				Thread.sleep(battleSimulator.nextInt(1000, 3000));
 			}
-			LOG.info("Dommages finaux {}", damage);
-			
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	public static void hunt(Ghost ghost) {
 		try {
 			checkDangerous(ghost);
-			
 			switch (ghost.getColor()) {
-				case "Grey": {
-					battle(ghost, 75);
-				};
-				break;
-				default: {
-					battle(ghost, 100);
-				}
+			case "Black": {
+				battle(ghost, 5);
+			}
+				;
+			case "Grey": {
+				battle(ghost, 4);
+			}
+				;
+			case "Red": {
+				battle(ghost, 3);
+			}
+				;
+			case "Blue": {
+				battle(ghost, 2);
+			}
+				;
+			default: {
+				battle(ghost, 1);
+			}
 			}
 		} catch (CustomException e) {
-			LOG.trace("Combat refusé contre {}", ghost.getSpecimen(), e );
+			LOG.trace("Combat refusé contre {}", ghost.getSpecimen(), e);
 		}
 	}
-	
-	public static void battle(Ghost ghost, Integer visibility) {
+
+	public static void battle(Ghost ghost, Integer bonus) {
 		ghost.setStatus(HuntingStatus.IN_BATTLE);
-		LOG.info("Bataille en cours contre {}", ghost.getSpecimen() );
-		if (damage + battleSimulator.nextInt(0, 10) > ghost.getHealth()) {
+		LOG.info("Bataille en cours contre {}", ghost.getSpecimen());
+		if (damage + battleSimulator.nextInt(1, 10) > ghost.getHealth()) {
 			ghost.setStatus(HuntingStatus.CAPTURED);
-			damage += 3;
-			LOG.info("Bataille remportée contre {}", ghost.getSpecimen() );
+			damage += bonus;
+			LOG.info("Le code top secret de l'unité de confinement des fantômes est : 21032024NEWLAND");
+			LOG.info("Bataille remportée contre {}.", ghost.getSpecimen());
 		} else {
 			ghost.setStatus(HuntingStatus.FREE);
 			damage -= 1;
-			LOG.info("Bataille perdue contre {}", ghost.getSpecimen() );
+			LOG.info("Bataille perdue contre {}.", ghost.getSpecimen());
 		}
-
+		if (ghost.getHealth() > 20) {
+			LOG.info("On vous raconte l'histoire du fantôme, on va vous parler de ses centres d'intérêt ou de ses pouvoirs surnaturels : {}", ghost.getHistory());
+		}
 	}
-	
+
 	private static void checkDangerous(Ghost ghost) {
-		approcheFantome(ghost);
+		approacheGhost(ghost);
 	}
 
-	private static void approcheFantome(Ghost ghost) {
-		observationFantome(ghost);
-		
+	private static void approacheGhost(Ghost ghost) {
+		observeGhost(ghost);
 	}
 
-	private static void observationFantome(Ghost ghost) {
-		 verificationCritereDangerosite(evaluationAgressivite(ghost),evaluationTailleFantome(ghost),evaluationNatureFantome(ghost));
-		
+	private static void observeGhost(Ghost ghost) {
+		checkSomeCriteria(evaluateSustainability(ghost), evaluateMaxSize(ghost), evaluationNature(ghost));
 	}
 
-	private static void verificationCritereDangerosite(boolean agressivite, int tailleFantome,
-			boolean natureFantome) {
-		if(!natureFantome || (!agressivite && tailleFantome < verificationTailleLimiteDangerosite())) {
+	private static void checkSomeCriteria(boolean ephemeral, int size, boolean nature) {
+		if (!nature || (ephemeral && size < verificationTailleLimiteDangerosite())) {
 			throw new CustomException("Stop");
 		}
-		
+	}
+
+	private static boolean evaluateSustainability(Ghost ghost) {
+		return ghost.isEphemeral();
+	}
+
+	private static int evaluateMaxSize(Ghost ghost) {
+		return ghost.getMaxSize();
+	}
+
+	private static boolean evaluationNature(Object ghost) {
+		return ghost instanceof Ghost;
 	}
 
 	private static int verificationTailleLimiteDangerosite() {
-		return HAUTEUR_TOUR_EIFFEL;
+		return HEIGHT_SPOOK_CENTRAL;
 	}
 
-	private static boolean evaluationNatureFantome(Object ghost) {
-		return ghost instanceof Ghost;
-		
-	}
-
-	private static int evaluationTailleFantome(Ghost ghost) {
-		return ghost.getSize();
-	}
-	private static boolean evaluationAgressivite(Ghost ghost) {
-		return ghost.isAgressif();
-	}
-
-	// Scénario : Notre équipe de chasseurs de fantômes part à la chasse ! Ont-ils réussi à venir à bout de toutes leurs cibles ?
-
-	// Questions : En tant qu'analyste de l'équipe de chasseurs, je veux savoir comment s'est passée la chasse.
-	// En utilisant des logs, je veux savoir :
-	// - combien de combats ont eu lieu ?
-	// - pourquoi certains combats ont été évités ?
-	// - combien de fantômes ont été capurés ?
-	// - quel est le niveau de dommage de l'équipe à la fin de la chasse ?
-	// - Combien de temps s'est écoulé entre chaque combat (en ms ?)
-
-	// Indications : 
-	// Utiliser LOG.error(), LOG.info() de la bibliotèque slf4j (import déjà fait dans la classe)
-
-    // TODO 	
-	// Ajouter un log inutile pour la MCO, qui spamme / avec info securité ATO
-	// Bonus : ajouter méthode sur taille et gestion munitions / fusil ?
-	
-	
- 
 }
