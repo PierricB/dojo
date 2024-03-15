@@ -82,8 +82,8 @@ public class GhostBuster {
 		huntingList.add(new Ghost("Azure", "Blue", 280, true, HuntingStatus.FREE, 30,
 				"Esprit azuré qui hante les profondeurs des océans."));
 		
-        int NumberOfHoursGhostSleep = battleSimulator.nextInt(5);
-        if (NumberOfHoursGhostSleep == 4) {
+        int NumberOfHoursGhostSleep = battleSimulator.nextInt(3);
+        if (NumberOfHoursGhostSleep == 2) {
     		huntingList.add(new Ghost("Collapsus", "White", 800, false, HuntingStatus.FREE, 20,
     			"Peux faire évanouir les ghost busters."));
         } 
@@ -94,7 +94,7 @@ public class GhostBuster {
 			for (Ghost ghost : huntingList) {
 				hunt(ghost);
 				Thread.sleep(battleSimulator.nextInt(1000, 3000));
-				if (ghost.getSpecimen().equals("collapsus")) {
+				if ("Collapsus".equals(ghost.getSpecimen())) {
 			        Thread.currentThread().interrupt();
 				}
 			}
