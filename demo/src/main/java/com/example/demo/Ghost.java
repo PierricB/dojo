@@ -8,7 +8,7 @@ public class Ghost {
 	
 	private Integer maxSize;
 	
-	private boolean Ephemeral;
+	private boolean ephemeral;
 	
 	private HuntingStatus status; 
 		
@@ -21,7 +21,7 @@ public class Ghost {
 		this.specimen = specimen;
 		this.color = color;
 		this.maxSize = size;
-		this.Ephemeral = agressif;
+		this.ephemeral = agressif;
 		this.status = status;
 		this.health = health;
 		this.history = history;
@@ -68,11 +68,11 @@ public class Ghost {
 	}
 
 	public boolean isEphemeral() {
-		return Ephemeral;
+		return ephemeral;
 	}
 
 	public void setEphemeral(boolean ephemeral) {
-		Ephemeral = ephemeral;
+		ephemeral = ephemeral;
 	}
 
 	public String getHistory() {
