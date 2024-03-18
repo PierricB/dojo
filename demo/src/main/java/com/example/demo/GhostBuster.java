@@ -67,7 +67,7 @@ public class GhostBuster {
 		huntingList.add(new Ghost("Phantom", "White", 350, false, HuntingStatus.FREE, 25,
 				"Esprit éthéré qui apparaît et disparaît soudainement."));
 
-		huntingList.add(new Ghost("Shade", "Black", 500, true, HuntingStatus.FREE, 20,
+		huntingList.add(new Ghost("Shade", "Blue", 500, true, HuntingStatus.FREE, 40,
 				"Esprit sombre qui obscurcit l'esprit de ceux qui l'approchent."));
 
 		huntingList.add(new Ghost("Shadow", "Black", 250, true, HuntingStatus.FREE, 20,
@@ -79,7 +79,7 @@ public class GhostBuster {
 		huntingList.add(new Ghost("Frost", "White", 550, true, HuntingStatus.FREE, 25,
 				"Esprit glacial qui fait chuter les températures autour de lui."));
 
-		huntingList.add(new Ghost("Whisper", "Purple", 200, false, HuntingStatus.FREE, 18,
+		huntingList.add(new Ghost("Whisper", "Purple", 200, false, HuntingStatus.FREE, 45,
 				"Esprit discret qui murmure des secrets."));
 
 		huntingList.add(new Ghost("Azure", "Blue", 280, true, HuntingStatus.FREE, 30,
@@ -87,7 +87,7 @@ public class GhostBuster {
 
 		int numberOfHoursGhostSleep = battleSimulator.nextInt(3);
 		if (numberOfHoursGhostSleep == 2) {
-			huntingList.add(new Ghost("Collapsus", "White", 800, false, HuntingStatus.FREE, 20,
+			huntingList.add(new Ghost("Collapsus", "White", 800, false, HuntingStatus.FREE, 50,
 					"Peux faire évanouir les ghost busters."));
 		}
 
