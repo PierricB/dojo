@@ -145,7 +145,7 @@ public class GhostBuster {
 			LOG.info("Bataille remportée contre {}.", ghost.getSpecimen());
 		} else {
 			ghost.setStatus(HuntingStatus.FREE);
-			damage -= 1;
+			damage -= bonus;
 			LOG.info("Bataille perdue contre {}.", ghost.getSpecimen());
 		}
 		if (ghost.getHealth() > 20) {
