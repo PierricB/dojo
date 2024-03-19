@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.ghostbusters;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -103,7 +103,7 @@ public class GhostBuster {
 			}
 		} catch (InterruptedException e) {
 		}
-
+		
 	}
 
 	public static void hunt(Ghost ghost) {
@@ -167,7 +167,7 @@ public class GhostBuster {
 
 	private static void checkSomeCriteria(boolean ephemeral, int size, boolean nature) {
 		if (!nature || (ephemeral && size < verificationTailleLimiteDangerosite())) {
-			throw new CustomException("Stop");
+			throw new CustomException("Les critères de combat ne sont pas respectés");
 		}
 	}
 
