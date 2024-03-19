@@ -26,7 +26,6 @@ public class GhostBuster {
 	private static final int INITIAL_DMG = 20;
 	private static final int HEIGHT_SPOOK_CENTRAL = 300;
 	private static Integer damage = INITIAL_DMG;
-	private static Integer nbAvoidedBattle = 0;
 
 	public static void main(String[] args) {
 
@@ -106,12 +105,6 @@ public class GhostBuster {
 			LOG.error("Chasse interrompue", e);
 
 		}
-		LOG.info("Nb batailles : {}", huntingList.size() - nbAvoidedBattle);
-		LOG.info("Nb captures : {}", huntingList.stream()
-				.filter(ghost -> HuntingStatus.CAPTURED.equals(ghost.getStatus()))
-				.collect(Collectors.toList())
-				.size());
-		LOG.info("Niv dmg : {}", damage);
 
 	}
 
@@ -140,8 +133,7 @@ public class GhostBuster {
 			}
 			}
 		} catch (CustomException e) {
-			LOG.info("Combat refusé contre {}", ghost.getSpecimen());
-			nbAvoidedBattle += nbAvoidedBattle;
+			LOG.trace("Combat refusé contre {}", ghost.getSpecimen());
 		}
 	}
 
@@ -151,7 +143,7 @@ public class GhostBuster {
 		if (damage + battleSimulator.nextInt(10) > ghost.getHealth()) {
 			ghost.setStatus(HuntingStatus.CAPTURED);
 			damage += bonus;
-			//LOG.info("Le code top secret de l'unité de confinement des fantômes est : 21032024NEWLAND");
+			LOG.info("Le code top secret de l'unité de confinement des fantômes est : 21032024NEWLAND");
 			LOG.info("Bataille remportée contre {}.", ghost.getSpecimen());
 		} else {
 			ghost.setStatus(HuntingStatus.FREE);
@@ -159,7 +151,7 @@ public class GhostBuster {
 			LOG.info("Bataille perdue contre {}.", ghost.getSpecimen());
 		}
 		if (ghost.getHealth() > 20) {
-			//LOG.info("On vous raconte l'histoire du fantôme, on va vous parler de ses centres d'intérêt ou de ses pouvoirs surnaturels : {}", ghost.getHistory());
+			LOG.info("On vous raconte l'histoire du fantôme, on va vous parler de ses centres d'intérêt ou de ses pouvoirs surnaturels : {}", ghost.getHistory());
 		}
 	}
 
