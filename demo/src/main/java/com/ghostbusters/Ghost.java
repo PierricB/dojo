@@ -72,7 +72,7 @@ public class Ghost {
 	}
 
 	public void setEphemeral(boolean ephemeral) {
-		ephemeral = ephemeral;
+		this.ephemeral = ephemeral;
 	}
 
 	public String getHistory() {
